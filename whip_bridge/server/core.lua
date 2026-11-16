@@ -402,7 +402,7 @@ function B.makePlayer(src)
         if type(key) ~= 'string' then return false end
         if key == 'hunger' or key == 'thirst' then val = math.max(0, math.min(100, tonumber(val) or 0)) end
         local ok, why = W:SetPlayerMetadata(src, key, val)
-        if not ok then print(('^3[qbx_core] SetMetaData %s: %s^0'):format(key, tostring(why))) end
+        if not ok then print(('^3[whip_bridge] SetMetaData %s: %s^0'):format(key, tostring(why))) end
         B.refresh(src)
         if key == 'hunger' or key == 'thirst' then
             local m = self.PlayerData.metadata
@@ -538,7 +538,7 @@ end
 
 function B.ensureJob(key, def)
     local job, why = W:EnsureJob(key, { name = def.label or key, roles = Convert.rolesFromGrades(def.grades) })
-    if not job then print(('^3[qbx_core] job %s: %s^0'):format(key, tostring(why))) return false, why end
+    if not job then print(('^3[whip_bridge] job %s: %s^0'):format(key, tostring(why))) return false, why end
     B.Roles[job.jobId] = nil
     return true
 end

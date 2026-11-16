@@ -7,7 +7,7 @@ local function gtaWeapons()
     local chunk, err = load(src, '@whip_core/shared/gta_weapons.lua', 't', env)
     local ok, why = false, err
     if chunk then ok, why = pcall(chunk) end
-    if not ok then print('^3[qbx_core] Shared.Weapons: ' .. tostring(why) .. '^0') return {} end
+    if not ok then print('^3[whip_bridge] Shared.Weapons: ' .. tostring(why) .. '^0') return {} end
     return env.GtaWeapons and env.GtaWeapons.list or {}
 end
 
@@ -79,7 +79,7 @@ function B.spawnVehicle(src, model, coords, warp, props)
     local id, why = W:SpawnTempVehicle(tostring(model), vector4(coords.x, coords.y, coords.z, heading), {
         forSource = ped and src or nil, idleDespawn = false, locked = false,
     })
-    if not id then print(('^3[qbx_core] spawn %s: %s^0'):format(tostring(model), tostring(why))) return nil end
+    if not id then print(('^3[whip_bridge] spawn %s: %s^0'):format(tostring(model), tostring(why))) return nil end
     local veh, netId = entityOf(id)
     if not veh then return nil end
     if props then W:SetVehicleAppearance(id, props) end

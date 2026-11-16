@@ -123,7 +123,7 @@ local function sync(key)
         ok, why = W:AddAction(def)
         if ok then set.id = ok end
     end
-    if not ok then print(('^3[qbx_core] target %s: %s^0'):format(key, tostring(why))) end
+    if not ok then print(('^3[whip_bridge] target %s: %s^0'):format(key, tostring(why))) end
 end
 
 local function add(key, at, options, api, extra)

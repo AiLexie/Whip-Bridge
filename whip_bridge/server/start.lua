@@ -13,7 +13,7 @@ clientEvents(BridgeConfig.Items)
 Whip.register(function()
     for key, def in pairs(BridgeConfig.Items) do
         local ok, why = W:RegisterItem(key, Convert.toWhipItem(def))
-        if not ok and not tostring(why):find('belongs to') then print(('^3[qbx_core] item %s: %s^0'):format(key, why)) end
+        if not ok and not tostring(why):find('belongs to') then print(('^3[whip_bridge] item %s: %s^0'):format(key, why)) end
     end
     for key, def in pairs(BridgeConfig.Jobs) do B.ensureJob(key, def) end
     clientEvents(W:GetItemDefs())
@@ -31,7 +31,7 @@ end)
 -- Build the shared tables before whip_core is ready, since scripts after us grab QBCore as they load.
 do
     local ok, err = pcall(B.rebuildShared)
-    if not ok then print('^3[qbx_core] Shared at start: ' .. tostring(err) .. '^0') end
+    if not ok then print('^3[whip_bridge] Shared at start: ' .. tostring(err) .. '^0') end
 end
 
 -- Wait for ready: whip_core has to create its own tables before ours can read from them.

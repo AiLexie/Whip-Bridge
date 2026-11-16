@@ -234,7 +234,7 @@ function SQL.fill()
     filling = true
     local ok, err = pcall(MySQL.transaction.await, SQL.fillStatements())
     filling = false
-    if not ok or err == false then print('^3[qbx_core] filling qb tables: ' .. tostring(err) .. '^0') end
+    if not ok or err == false then print('^3[whip_bridge] filling qb tables: ' .. tostring(err) .. '^0') end
 end
 
 function SQL.quiet(query, values)
@@ -250,7 +250,7 @@ end
 
 local function run(label, query)
     local ok, err = pcall(MySQL.query.await, query)
-    if not ok then print(('^1[qbx_core] %s: %s^0'):format(label, tostring(err))) end
+    if not ok then print(('^1[whip_bridge] %s: %s^0'):format(label, tostring(err))) end
     return ok
 end
 
@@ -268,7 +268,7 @@ function SQL.install()
             kind = nil
         end
         if kind == 'BASE TABLE' and tableComment(name) ~= MARK then
-            print(('^3[qbx_core] a real table `%s` the bridge did not make is in this database: left alone, so qb scripts read it, not whip^0'):format(name))
+            print(('^3[whip_bridge] a real table `%s` the bridge did not make is in this database: left alone, so qb scripts read it, not whip^0'):format(name))
         else
             if run(name, ddl) then
                 local ok = true

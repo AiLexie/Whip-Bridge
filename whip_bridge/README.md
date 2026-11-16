@@ -1,23 +1,28 @@
-# qbx_core for whip_core
+# whip_bridge for whip_core
 
 Lets QBCore and Qbox scripts run on whip_core. The scripts call qb-core, qbx_core, qb-inventory or
-ox_inventory like normal, and every call gets turned into a whip_core export. whip stays in charge of
-players, money, jobs, items and cars.
+ox_inventory like normal, and the bridge turns every call into a whip_core export. whip stays in
+charge of players, money, jobs, items and cars.
 
-The resource is called `qbx_core` and also `provide`s `qb-core`, `qb-inventory`, `ox_inventory`,
-`qb-target`, `ox_target`, `qb-menu`, `qb-input`, `qb-vehiclekeys` and `qbx_vehiclekeys`.
+The resource is called `whip_bridge` and `provide`s `qbx_core`, `qb-core`, `qb-inventory`,
+`ox_inventory`, `qb-target`, `ox_target`, `qb-menu`, `qb-input`, `qb-vehiclekeys` and
+`qbx_vehiclekeys`.
 
 ## Install
 
 ```
 ensure oxmysql
 ensure whip_core
-ensure qbx_core
+ensure whip_bridge
 ensure your-qb-scripts
 ```
 
 Don't run the real versions of any of those resources next to it. whip's setup report will flag
-`qbx_core` as another framework. You can ignore that line.
+`whip_bridge` as another framework. You can ignore that line.
+
+A Qbox script that lists `'@qbx_core/modules/lib.lua'` in its fxmanifest needs that path changed
+to `'@whip_bridge/modules/lib.lua'`. `provide` aliases exports, not file paths. Exports, events and
+`exports.qbx_core` carry on working untouched.
 
 ## What's covered
 
@@ -27,8 +32,8 @@ Everything public in qb-core (2026-08), qbx_core (2026-10), qb-inventory (2026-0
 - `QBCore.Functions` on both sides, `QBCore.Player`, player methods in both the
   `Player.Functions.X` and `Player:X` styles
 - `QBCore.Shared` (items, jobs, gangs, vehicles, weapons, locations and the helper functions)
-- `QBCore.Commands` and qb-core's built-in commands. `/me` is left to whip.
-- qb-core and qbx_core exports, plus the `@qbx_core/modules/*` files Qbox scripts import
+- `QBCore.Commands` and qb-core's built-in commands. whip handles `/me`.
+- qb-core and qbx_core exports, plus the `@whip_bridge/modules/*` files Qbox scripts import
 - qb-inventory and ox_inventory exports
 - qb-target and ox_target, qb-menu, qb-input, qb-vehiclekeys and qbx_vehiclekeys
 - The usual events: player loaded/unloaded, job, gang, duty, money and metadata updates,
@@ -77,17 +82,19 @@ and jobs need to exist:
 2. Create its jobs in `/whip`, or list them in `BridgeConfig.Jobs` and the bridge creates them.
 3. If anything uses `IsWearingGloves`, fill `BridgeConfig.NoGloves` with your bare-hand arm drawables.
 
-If you miss an item, `BridgeConfig.AutoCreateItems` catches it: the first time a script gives it, the bridge
-makes a plain version (name from the key, 0.1 kg) and prints a warning telling you to add it properly.
+If you miss an item, `BridgeConfig.AutoCreateItems` catches it. The first time a script gives an
+unknown item, the bridge makes a plain version (name from the key, 0.1 kg) and prints a warning
+telling you to add it properly.
 
 ## Database tables
 
 Plenty of qb scripts query `players`, `player_vehicles` or `player_groups` directly, so the bridge keeps
-real tables with those names. They get refilled from whip's data (through the `qbx_v_*` views) on start,
-every `BridgeConfig.SqlSyncSeconds` and after every write. `hash` is filled with `qb_joaat(model)`.
+real tables with those names. The bridge refills them from whip's data (through the `qbx_v_*` views)
+on start, every `BridgeConfig.SqlSyncSeconds` and after every write. The bridge fills `hash` with
+`qb_joaat(model)`.
 
-Writes work too. Triggers copy each `INSERT`, `UPDATE` or `DELETE` into `qbx_bridge_queue`, the bridge
-applies it through whip within a second, then rewrites the row with whatever whip ended up doing.
+Writes work too. Triggers copy each `INSERT`, `UPDATE` or `DELETE` into `qbx_bridge_queue`. The
+bridge applies the change through whip within a second, then rewrites the row with whatever whip did.
 
 | A script writes | whip does |
 |---|---|
@@ -109,7 +116,7 @@ real `players` or `player_vehicles` tables from an old qb database, the bridge l
 - Logging in and creating or deleting characters happens on whip's character screen. `Login`,
   `CreatePlayer` and `DeleteCharacter` return false.
 - Inventory hooks only fire for changes that go through the bridge, not for whip's own drag and drop.
-- A stash registered without coords can be opened by server code, but a client can't ask to open it.
+- Server code can open a stash registered without coords, but a client can't ask to open it.
 - Cash is an item in whip, so money given to an offline player goes to their bank.
 - qb callbacks and events are plain net events like in real qb. whip's SecureEvent doesn't cover them.
 - There's no target eye. Prompts show up on their own when you're close, so `IsTargetActive` is always false.
@@ -118,7 +125,7 @@ real `players` or `player_vehicles` tables from an old qb database, the bridge l
   types will cost more than under qb-target.
 - `closeMenu` can't close a menu that's already open, but picking something after it does nothing.
 - Clients can only claim keys for a car within 10 m that's a street car, a temp car or their own.
-- `addNoLockVehicles` is stored, but whip's lock rules decide what actually locks.
+- The bridge stores `addNoLockVehicles`, but whip's lock rules decide what locks.
 
-qb-garages, qb-phone, qb-banking, qb-doorlock and the rest aren't bridged. whip has its own garages,
-banking and doors, so only run the qb ones if you take whip's out.
+The bridge doesn't cover qb-garages, qb-phone, qb-banking, qb-doorlock or the rest. whip has its own
+garages, banking and doors, so only run the qb ones if you take whip's out.

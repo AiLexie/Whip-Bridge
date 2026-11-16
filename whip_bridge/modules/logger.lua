@@ -1,6 +1,6 @@
 -- require it, as qbx scripts do: logger.log({ source, event, message, webhook?, color?, tags? })
 if not IsDuplicityVersion() then
-    print('^1[qbx_core] the logger is server only^0')
+    print('^1[whip_bridge] the logger is server only^0')
     return
 end
 

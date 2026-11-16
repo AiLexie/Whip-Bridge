@@ -8,8 +8,8 @@ qbx.array = {}
 
 local cfg = BridgeConfig or (function()
     local env = setmetatable({}, { __index = _G })
-    local src = LoadResourceFile('qbx_core', 'shared/config.lua')
-    if src then load(src, '@qbx_core/shared/config.lua', 't', env)() end
+    local src = LoadResourceFile('whip_bridge', 'shared/config.lua')
+    if src then load(src, '@whip_bridge/shared/config.lua', 't', env)() end
     return env.BridgeConfig or {}
 end)()
 qbx.armsWithoutGloves = cfg.NoGloves or { male = {}, female = {} }

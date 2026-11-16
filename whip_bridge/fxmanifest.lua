@@ -2,11 +2,16 @@ fx_version 'cerulean'
 game 'gta5'
 lua54 'yes'
 
-name 'qbx_core'
+name 'whip_bridge'
+author 'Lexie'
 description 'QBCore / Qbox bridge for whip_core: qb and qbx scripts run on whip'
-version '0.3.0'
+version '0.4.0'
+repository 'https://github.com/AiLexie/Whip-Bridge'
 
 -- Don't run the real resources with these names alongside it.
+-- qbx_core is provided so Qbox scripts find exports.qbx_core. Their fxmanifests still need
+-- '@whip_bridge/modules/*.lua' in place of '@qbx_core/modules/*.lua': provide aliases exports, not file paths.
+provide 'qbx_core'
 provide 'qb-core'
 provide 'qb-inventory'
 provide 'ox_inventory'

@@ -6,7 +6,7 @@ local builtAt = -10000
 local function coreObject()
     if GetResourceState('whip_core') == 'started' and GetGameTimer() - builtAt > 5000 then
         local ok, err = pcall(B.rebuildShared)
-        if not ok then print('^3[qbx_core] Shared: ' .. tostring(err) .. '^0') end
+        if not ok then print('^3[whip_bridge] Shared: ' .. tostring(err) .. '^0') end
         builtAt = GetGameTimer()
     end
     return QBCore
@@ -110,7 +110,7 @@ end)
 exports('GetMetadata', function(who, key) return call(who, 'GetMetaData', key) end)
 exports('SetCharInfo', function(who, key, val)
     if key == 'firstname' or key == 'lastname' or key == 'birthdate' or key == 'gender' then
-        print('^3[qbx_core] SetCharInfo: names, birthdate and gender are whip\'s (/whip → Players)^0')
+        print('^3[whip_bridge] SetCharInfo: names, birthdate and gender are whip\'s (/whip → Players)^0')
         return false
     end
     local p = person(who)

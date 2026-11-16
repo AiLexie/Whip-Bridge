@@ -12,7 +12,7 @@ end
 
 local function same(a, b) return json.encode(a) == json.encode(b) end
 
-local function say(fmt, ...) print(('^3[qbx_core:sql] ' .. fmt .. '^0'):format(...)) end
+local function say(fmt, ...) print(('^3[whip_bridge:sql] ' .. fmt .. '^0'):format(...)) end
 
 local function person(cid)
     local s = B.resolve(tostring(cid))
@@ -182,7 +182,7 @@ function Apply.drain()
         local fn = Apply[r.tbl]
         if fn and SQL.managed[r.tbl] then
             local ok, err = pcall(fn, r.op, decode(r.old_row) or {}, decode(r.new_row) or {})
-            if not ok then print(('^1[qbx_core:sql] %s %s: %s^0'):format(r.op, r.tbl, tostring(err))) end
+            if not ok then print(('^1[whip_bridge:sql] %s %s: %s^0'):format(r.op, r.tbl, tostring(err))) end
         end
         done[#done + 1] = r.id
     end
@@ -197,6 +197,6 @@ CreateThread(function()
     while true do
         Wait(1000)
         local ok, err = pcall(Apply.drain)
-        if not ok then busy = false print('^1[qbx_core:sql] queue: ' .. tostring(err) .. '^0') end
+        if not ok then busy = false print('^1[whip_bridge:sql] queue: ' .. tostring(err) .. '^0') end
     end
 end)

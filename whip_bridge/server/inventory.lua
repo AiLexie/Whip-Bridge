@@ -153,11 +153,11 @@ local function ensureItem(item)
     local label = item:gsub('_', ' '):gsub('(%a)(%w*)', function(a, b) return a:upper() .. b end)
     local ok, why = W:RegisterItem(item, { name = label, weight = 0.1, stack = true })
     if ok then
-        print(('^3[qbx_core] made item "%s" (%s) because %s gave it and whip didn\'t know it. Add it to whip\'s item list.^0')
+        print(('^3[whip_bridge] made item "%s" (%s) because %s gave it and whip didn\'t know it. Add it to whip\'s item list.^0')
             :format(item, label, GetInvokingResource() or 'a script'))
         B.forgetDefs()
     else
-        print(('^3[qbx_core] item %s is unknown and could not be made: %s^0'):format(item, why))
+        print(('^3[whip_bridge] item %s is unknown and could not be made: %s^0'):format(item, why))
     end
 end
 
@@ -336,7 +336,7 @@ local function registerUse(item)
     exports.whip_core:RegisterUseHandler(item, function(source, _, slotData, addr)
         local qbItem = Convert.slot(addr and addr.slot or 0, slotData, B.itemDefs()[item])
         local ok, err = pcall(cb, source, qbItem)
-        if not ok then print(('^1[qbx_core] use handler for %s: %s^0'):format(item, err)) end
+        if not ok then print(('^1[whip_bridge] use handler for %s: %s^0'):format(item, err)) end
         return false
     end)
 end

@@ -212,7 +212,7 @@ QF.IsLicenseInUse = function(license)
 end
 QF.Kick = function(src, reason) W:KickPlayer(src, reason or 'Kicked') end
 QF.ExploitBan = function(src, name)
-    print(('^1[qbx_core] exploit "%s" by %s: kicked^0'):format(tostring(name), tostring(src)))
+    print(('^1[whip_bridge] exploit "%s" by %s: kicked^0'):format(tostring(name), tostring(src)))
     W:KickPlayer(src, 'Exploiting')
 end
 
@@ -364,7 +364,7 @@ end)
 
 local QP = QBCore.Player
 QP.Login = function(src)
-    print(('^3[qbx_core] Login(%s): whip_core runs character select; the player picks their character^0'):format(tostring(src)))
+    print(('^3[whip_bridge] Login(%s): whip_core runs character select; the player picks their character^0'):format(tostring(src)))
     return false
 end
 QP.Logout = function(src) W:LogoutPlayer(src) end
