@@ -1,0 +1,21 @@
+NOTICE
+
+whip_bridge is an independent implementation. It is not affiliated with,
+endorsed by, or sponsored by any of the projects it bridges to.
+
+The projects it targets, and their licenses:
+
+  qb-core, qb-inventory, qb-target, qb-menu, qb-input, qb-vehiclekeys
+    QBCore Framework, GPL-3.0
+  qbx_core, qbx_vehiclekeys
+    Qbox Project, GPL-3.0
+  ox_inventory, ox_target
+    Overextended, LGPL-3.0
+
+whip_bridge targets the public interface of those resources: the export names,
+event names and data shapes that a script written for them expects. It contains
+no code from them.
+
+The name "qbx_core" appears here as a provided resource name, as a prefix on
+event names, and as the compatibility shim in compat/. In each case it names the
+Qbox resource that third-party scripts expect to call, not this project.

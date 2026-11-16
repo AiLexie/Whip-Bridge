@@ -20,8 +20,9 @@ ensure your-qb-scripts
 Don't run the real versions of any of those resources next to it. whip's setup report will flag
 `whip_bridge` as another framework. You can ignore that line.
 
-A Qbox script that lists `'@qbx_core/modules/lib.lua'` in its fxmanifest needs that path changed
-to `'@whip_bridge/modules/lib.lua'`. `provide` aliases exports, not file paths. Exports, events and
+A Qbox script that lists `'@qbx_core/modules/lib.lua'` in its fxmanifest needs either the
+`compat/qbx_core` shim from this repository started before it, or that path changed to
+`'@whip_bridge/modules/lib.lua'`. `provide` aliases exports, not file paths. Exports, events and
 `exports.qbx_core` carry on working untouched.
 
 ## What's covered
